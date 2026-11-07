@@ -16,9 +16,9 @@
     "@vueuse/core": "^15.0.0",
     "@vueuse/nuxt": "^15.0.0",
     "pinia": "^4.1.0",
-    "tailwindcss": "^4.3.4",
-    "tailwindcss-rtl": "^1.0.0",
-    "vee-validate": "^4.15.1"
+    "vee-validate": "^4.15.1",
+    "@storely/ui": "workspace:*",
+    "@iconify-json/lucide": "^1.2.0"
   },
   "devDependencies": {
     "nuxt": "^4.6.4",

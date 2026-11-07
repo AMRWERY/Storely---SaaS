@@ -1,9 +1,9 @@
-import { fileURLToPath } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 
 // Shared base for every Nuxt app in the monorepo (merchant, storefront, platform-admin, marketing).
 // Apps opt in with: `extends: ['@storely/core']`
 export default defineNuxtConfig({
+  extends: ["@storely/ui"],
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: [
@@ -59,7 +59,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  css: [fileURLToPath(new URL("./app/assets/css/main.css", import.meta.url))],
   app: {
     head: {
       meta: [

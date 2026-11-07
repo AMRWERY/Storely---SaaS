@@ -1,0 +1,12 @@
+{
+  "name": "@storely/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Nuxt layer: design tokens CSS, transitions, and platform-neutral UI components (theme/locale toggles).",
+  "main": "./nuxt.config.ts",
+  "dependencies": {
+    "tailwindcss": "^4.3.4",
+    "tailwindcss-rtl": "^1.0.0"
+  }
+}

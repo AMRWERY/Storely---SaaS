@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+@plugin "tailwindcss-rtl";
+
+/* Tailwind only scans the app root; also scan this shared package's components */
+@source "../../components";
+
+/* Dark mode is the default; it is active when `.dark` is on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Semantic tokens (design.md §2). Light is :root, dark overrides under .dark ---- */
+:root {
+  color-scheme: light;
+  --canvas: #f5f7fb;
+  --sidebar: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #f8fafc;
+  --surface-hover: #f1f5f9;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text-primary: #111827;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+  --focus-ring: #7c3aed;
+  --success: #15803d;
+  --warning: #b45309;
+  --danger: #be123c;
+  --info: #1d4ed8;
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: #0b0f17;
+  --sidebar: #0e1420;
+  --surface: #111827;
+  --surface-raised: #172033;
+  --surface-hover: #1b2940;
+  --border-subtle: #253247;
+  --border-strong: #35445c;
+  --text-primary: #f8fafc;
+  --text-secondary: #b6c2d2;
+  --text-muted: #8492a6;
+  --text-disabled: #64748b;
+  --focus-ring: #a78bfa;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --info: #60a5fa;
+}
+
+@theme inline {
+  --font-sans: "IBM Plex Sans", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-arabic: "Noto Sans Arabic", "IBM Plex Sans", system-ui, sans-serif;
+
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+  --color-accent: #38bdf8;
+  --color-accent-teal: #2dd4bf;
+
+  --color-canvas: var(--canvas);
+  --color-sidebar: var(--sidebar);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-disabled: var(--text-disabled);
+  --color-focus: var(--focus-ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  body {
+    background-color: var(--canvas);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+  }
+
+  html[lang^="ar"] body {
+    font-family: var(--font-arabic);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
