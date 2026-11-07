@@ -42,33 +42,36 @@ Multiple repos are useful when teams, access controls, release cadences, and own
 
 Consider splitting a package or service only when there is a concrete reason: independent team ownership, separate security boundary, separate release cadence, different infrastructure needs, or a proven scaling bottleneck. Do not split merely because the folder has become large.
 
-## 2. Suggested monorepo structure
+## 2. Monorepo structure
+
+This is the structure the repository currently has. Folders marked *(planned)* are part of the target design but are not created yet.
 
 ```text
-commerce-platform/
+storely/
 ├── apps/
-│   ├── marketing/              # Public SaaS website: home, features, pricing
-│   ├── merchant/               # Merchant dashboard and theme editor
-│   ├── storefront/             # Public storefront renderer for all merchants
-│   ├── platform-admin/         # Internal platform operations dashboard
-│   ├── api/                    # Backend API (can be added when backend is chosen)
-│   └── worker/                 # Background jobs (can begin inside API process)
+│   ├── marketing/              # Public SaaS website: home, features, pricing      (Nuxt, :3001)
+│   ├── merchant/               # Merchant dashboard and theme editor               (Nuxt, :3002)
+│   ├── storefront/             # Public storefront renderer for all merchants      (Nuxt, :3003)
+│   ├── platform-admin/         # Internal platform operations dashboard            (Nuxt, :3004)
+│   ├── api/                    # Backend API — empty until the backend is chosen   (planned)
+│   └── worker/                 # Background jobs — empty; can begin inside the API (planned)
 │
 ├── packages/
-│   ├── ui/                     # Platform-neutral Vue UI primitives
-│   ├── dashboard-ui/           # Dashboard navigation, tables, form patterns
-│   ├── storefront-runtime/     # Theme renderer and section registry
-│   ├── theme-contracts/        # Theme/page/section schema and versioning
-│   ├── commerce-contracts/     # Shared DTOs, enums, API contracts
-│   ├── validation/             # Shared Zod schemas and validation messages
-│   ├── api-client/             # Typed API client
-│   ├── i18n/                   # Shared locale metadata and message conventions
-│   ├── design-tokens/          # Color, typography, spacing, motion tokens
-│   ├── utils/                  # Small framework-neutral helpers
-│   ├── eslint-config/          # Shared lint configuration
+│   ├── core/                   # Nuxt layer `@storely/core`: owns ALL shared frontend dependencies
+│   │                           #   and base config (i18n en/ar, VueUse, Pinia, VeeValidate, Icons,
+│   │                           #   Tailwind Vite plugin, page/layout transitions). Extends `@storely/ui`.
+│   ├── ui/                     # Nuxt layer `@storely/ui`: shared CSS (assets/css), design-token CSS,
+│   │                           #   transitions, and platform-neutral components
+│   │                           #   (VThemeToggle, VLocaleToggle, VLocaleOverlay), useTheme composable
+│   ├── design-tokens/          # Color, typography, spacing, motion tokens (framework-neutral)
+│   ├── storefront-runtime/     # Theme renderer and section registry              (stub)
+│   ├── theme-contracts/        # Theme/page/section schema and versioning         (stub)
+│   ├── commerce-contracts/     # Shared DTOs, enums, API contracts                (stub)
+│   ├── api-client/             # Typed API client                                 (stub)
 │   └── tsconfig/               # Shared TypeScript configurations
 │
 ├── docs/
+│   ├── rules/                  # Architecture, design system, founder guide, Stitch prompts
 │   ├── product/                # PRD, personas, roadmap, decisions
 │   ├── architecture/           # Diagrams, ADRs, threat model
 │   ├── api/                    # OpenAPI exports and integration guides
@@ -77,13 +80,28 @@ commerce-platform/
 ├── infra/                      # Deployment and infrastructure configuration
 ├── scripts/
 ├── .github/workflows/
-├── package.json
-├── pnpm-workspace.yaml
+├── package.json                # Root scripts: dev:<app>, build:<app>, dev, build
+├── pnpm-workspace.yaml         # apps/* and packages/*
 ├── turbo.json
 └── README.md
 ```
 
 **Important:** `apps/storefront` is one shared storefront application that resolves the merchant from the incoming hostname/domain. Do not create a new Nuxt app for every merchant.
+
+### Shared frontend layers
+
+All Nuxt apps share one layer chain, so an app's `nuxt.config.ts` is only:
+
+```ts
+export default defineNuxtConfig({ extends: ['@storely/core'] })   // core -> ui
+```
+
+- **Libraries live in packages, not apps.** Apps depend only on `@storely/core` (plus `nuxt`, `vue`, `vue-router`). Add a shared library with `pnpm --filter @storely/core add <pkg>` (or `@storely/ui` for CSS/Tailwind-level dependencies).
+- **Shared CSS lives in `packages/ui/assets/css/`** (`main.css` tokens + Tailwind, `transitions.css` motion). Apps should not duplicate it.
+- **Locale routing:** every route is prefixed (`/en`, `/ar`); `/` redirects to the detected locale. Arabic sets `dir="rtl"` on `<html>`.
+- **Theme:** dark is the default; the `.dark` class on `<html>` drives the tokens, and the choice is persisted in `localStorage` (`storely-theme`).
+- **Dev ports / commands:** `pnpm dev:marketing` (3001), `pnpm dev:merchant` (3002), `pnpm dev:storefront` (3003), `pnpm dev:platform-admin` (3004).
+- **Not used:** ESLint (no shared lint config package). Packages from the original proposal that are not created yet: `dashboard-ui`, `validation`, `i18n`, `utils`.
 
 ## 3. Multi-tenant architecture
 
