@@ -1,0 +1,9 @@
+{
+  "name": "@storely/design-tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Color, typography, spacing, motion tokens",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts"
+}

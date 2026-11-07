@@ -1,0 +1,28 @@
+{
+  "name": "@storely/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Nuxt layer: owns every shared frontend dependency and base configuration (Tailwind v4 + RTL, i18n, VueUse, Pinia, VeeValidate, Icons).",
+  "main": "./nuxt.config.ts",
+  "dependencies": {
+    "@nuxt/icon": "^2.6.2",
+    "@nuxtjs/i18n": "^10.6.0",
+    "@pinia/nuxt": "^1.0.3",
+    "@tailwindcss/vite": "^4.3.4",
+    "@vee-validate/i18n": "^4.15.1",
+    "@vee-validate/nuxt": "^4.15.1",
+    "@vee-validate/rules": "^4.15.1",
+    "@vueuse/core": "^15.0.0",
+    "@vueuse/nuxt": "^15.0.0",
+    "pinia": "^4.1.0",
+    "tailwindcss": "^4.3.4",
+    "tailwindcss-rtl": "^1.0.0",
+    "vee-validate": "^4.15.1"
+  },
+  "devDependencies": {
+    "nuxt": "^4.6.4",
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0"
+  }
+}

@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@plugin "tailwindcss-rtl";
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+/* Dark mode is the default; light mode is opted into with `.light` on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "IBM Plex Sans", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-arabic: "Noto Sans Arabic", "IBM Plex Sans", system-ui, sans-serif;
+}
+
+@layer base {
+  html[lang^="ar"] {
+    font-family: var(--font-arabic);
+  }
+}
